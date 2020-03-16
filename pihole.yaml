@@ -1,0 +1,45 @@
+version: "3"
+services:
+  pihole:
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "81:81/tcp"
+    environment:
+      - TZ=Asia/Jakarta
+      - DNS1=1.1.1.1
+      - DNS2=1.0.0.1
+      - WEB_PORT=81
+      - WEBPASSWORD=matcha
+      - PATH=/opt/pihole:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - ARCH=arm64
+      - UBUNTU_SUITE=stretch
+      - DOCKER_REPO=multiarch/debian-debootstrap
+      - S6OVERLAY_RELEASE=https://github.com/just-containers/s6-overlay/releases/download/v1.22.1.0/s6-overlay-aarch64.tar.gz
+      - PIHOLE_INSTALL=/root/ph_install.sh
+      - PHP_ENV_CONFIG=/etc/lighttpd/conf-enabled/15-fastcgi-php.conf
+      - PHP_ERROR_LOG=/var/log/lighttpd/error.log
+      - IPv6=True
+      - S6_LOGGING=0
+      - S6_KEEP_ENV=1
+      - S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+      - FTL_CMD=no-daemon
+      - DNSMASQ_USER=root
+#    command: pihole -a -p matcha
+    volumes:
+      - '/opt/docker/pihole/pihole/:/etc/pihole/'
+      - '/opt/docker/pihole/dnsmasq.d/:/etc/dnsmasq.d/'
+#      - '/opt/docker/pihole/html/pihole/:/var/www/html/pihole/'
+#      - '/opt/docker/pihole/html/admin/:/var/www/html/admin'
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+    restart: unless-stopped
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+        delay: 0s
+      placement:
+        constraints: [node.platform.os == linux]

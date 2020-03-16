@@ -1,0 +1,28 @@
+version: '3'
+services:
+    nginx:
+      image: nginx:alpine
+      ports:
+            - '80:80'
+      volumes:
+            - /opt/docker/nginx-php/public_html:/public_html
+            - /opt/docker/nginx-php/conf.d:/etc/nginx/conf.d           
+      deploy:
+        mode: global
+        restart_policy:
+          delay: 0s
+        placement:
+          constraints: [node.role == worker]
+          
+    php:
+     image: php:7.1-fpm-alpine
+     volumes:
+       - /opt/docker/nginx-php/public_html:/public_html
+     expose:
+       - 9000    
+     deploy:
+       mode: global
+       restart_policy:
+         delay: 0s
+       placement:
+         constraints: [node.role == worker]

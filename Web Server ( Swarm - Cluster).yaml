@@ -26,3 +26,4 @@ services:
          delay: 0s
        placement:
          constraints: [node.role == worker]
+         

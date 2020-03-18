@@ -37,3 +37,4 @@ services:
       mode: global
       placement:
         constraints: [node.platform.os == worker]
+

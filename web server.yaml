@@ -29,6 +29,7 @@ networks:
        
 ##########################################################################
 #                       Seting Nginx default.conf                        #
+#               Buat folder /opt/docker/nginx-php/conf.d                 #
 #    Simpan di /opt/docker/nginx-php/conf.d dengan nama default.conf     #
 ##########################################################################
 

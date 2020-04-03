@@ -3,7 +3,7 @@ services:
     nginx:
       image: nginx:alpine
       ports:
-            - '8080:80'
+            - '80:80'
       volumes:
             - /opt/docker/nginx-php/public_html:/public_html
             - /opt/docker/nginx-php/conf.d:/etc/nginx/conf.d 
